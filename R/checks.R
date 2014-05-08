@@ -84,31 +84,23 @@ checkVersionNumber <- function(pkgdir, new_package=FALSE)
             " http://www.bioconductor.org/developers/how-to/version-numbering/"))
         return()
     }
+    tryCatch({
+        pv <- package_version(version)
+        y <- pv$minor
+        mod <- y %% 2
+        biocY <- packageVersion("BiocInstaller")$minor
+        bioc.mod <- biocY %% 2
+        isDevel <- (bioc.mod == 1)
+        if (mod != bioc.mod)
+        {
+            shouldBe <- ifelse(isDevel, "odd", "even")
+            vers <- ifelse(isDevel, "devel", "release")
+            handleRecommended(sprintf("y of x.y.z version should be %s in %s",
+                    shouldBe, vers))
+        }
 
-    # temporarily disable this check on the single package builder
-    # (until it's running on devel machines)
-
-    if (package_version(BiocInstaller:::BIOC_VERSION)$minor %% 2 ==0 && 
-        !nchar(Sys.getenv("PACKAGEBUILDER_HOME")))
-    {
-        tryCatch({
-            pv <- package_version(version)
-            y <- pv$minor
-            mod <- y %% 2
-            biocY <- packageVersion("BiocInstaller")$minor
-            bioc.mod <- biocY %% 2
-            isDevel <- (bioc.mod == 1)
-            if (mod != bioc.mod)
-            {
-                shouldBe <- ifelse(isDevel, "odd", "even")
-                vers <- ifelse(isDevel, "devel", "release")
-                handleRecommended(sprintf("y of x.y.z version should be %s in %s",
-                        shouldBe, vers))
-            }
-
-            },
-            error=function(e) handleRequired("Valid package version"))
-    }
+        },
+        error=function(e) handleRequired("Valid package version"))
 }
 
 getPkgType <- function(pkgdir)
