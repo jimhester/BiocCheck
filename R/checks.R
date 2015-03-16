@@ -22,6 +22,16 @@ checkForVersionNumberMismatch <- function(package, package_dir)
     }
 }
 
+checkForDirectSlotAccess <- function(parsedCode, package_name)
+{
+    res <- findSymbolInParsedCode(parsedCode, package_name, "@", "'@'")
+    if (res > 0)
+    {
+        handleConsideration(paste("Using accessors;",
+            "don't access S4 class slots via",
+            "'@' in examples/vignettes."))
+    }
+}
 
 checkVignetteDir <- function(pkgdir, checkingDir)
 {

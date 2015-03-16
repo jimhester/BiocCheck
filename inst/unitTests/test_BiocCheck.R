@@ -542,3 +542,20 @@ test_checkForVersionNumberMismatch <- function()
     checkEquals(.requirements$getNum(), 1)
     zeroCounters()
 }
+
+test_checkForDirectSlotAccess <- function()
+{
+    pkgpath <- create_test_package('testpkg', list(VignetteBuilder="knitr"))
+    parsedCode <- list(FooBar=BiocCheck:::parseFile(
+        system.file("testfiles", "directSlotAccess.Rmd",
+        package="BiocCheck"), pkgpath))
+    res <- BiocCheck:::checkForDirectSlotAccess(parsedCode, pkgpath)
+    checkEquals(.considerations$getNum(), 1)
+    zeroCounters()
+    parsedCode <- list(FooBar=BiocCheck:::parseFile(
+        system.file("testfiles", "noDirectSlotAccess.Rmd",
+        package="BiocCheck"), pkgpath))
+    res <- BiocCheck:::checkForDirectSlotAccess(parsedCode, pkgpath)
+    checkEquals(.considerations$getNum(), 0)
+    zeroCounters()
+}
