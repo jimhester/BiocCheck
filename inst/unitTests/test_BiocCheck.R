@@ -524,3 +524,21 @@ test_checkForBiocDevelSubscription <- function()
     }
 
 }
+
+test_checkForVersionNumberMismatch <- function()
+{
+    pkgpath <- create_test_package('badpkg', list(Version="0.0.1"))
+    oldwd <- getwd()
+    on.exit(setwd(oldwd))
+    setwd(tempdir())
+    system("R CMD build badpkg")
+    oldname <- file.path(tempdir(), "badpkg_0.0.1.tar.gz")
+    newname <- file.path(dirname(pkgpath), "badpkg_9.9.9.tar.gz")
+    file.rename(oldname, newname)
+    BiocCheck:::installAndLoad(newname)
+
+    BiocCheck:::checkForVersionNumberMismatch(newname,
+        BiocCheck:::.get_package_dir(newname))
+    checkEquals(.requirements$getNum(), 1)
+    zeroCounters()
+}

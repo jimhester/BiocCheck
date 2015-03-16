@@ -73,6 +73,9 @@ BiocCheck <- function(package, ...)
 
     ## checks
 
+    if (!checkingDir)
+        checkForVersionNumberMismatch(package, package_dir)
+
     checkForBadDepends(file.path(tempdir(), "lib", package_name))
 
 
