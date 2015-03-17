@@ -924,8 +924,9 @@ checkExportsAreDocumented <- function(pkgdir, pkgname)
         }
     }
 
+    ratio <- (exportingPagesCount - noExamplesCount) / exportingPagesCount 
     if (exportingPagesCount > 0 
-        && (noExamplesCount / exportingPagesCount) >= (0.8 / 1.0))
+        && ratio  <= (0.8 / 1.0))
     {
         handleRequired(paste0("At least 80% of man pages documenting ",
             "exported objects must have runnable examples.",
