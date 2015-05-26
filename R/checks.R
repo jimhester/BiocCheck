@@ -835,6 +835,7 @@ doesManPageHaveRunnableExample <- function(rd)
 
     parsed <- try(parse(text = ex), silent = TRUE)
 
+    # if code contains only comments the length with be 0
     length(parsed) && !inherits(parsed, "try-error")
 }
 
