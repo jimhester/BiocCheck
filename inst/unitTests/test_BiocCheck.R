@@ -590,13 +590,11 @@ test_checkRVersionDependency <- function()
 
 test_doesManPageHaveRunnableExample <- function()
 {
-    good <- tools::parse_Rd(
-        system.file("testpackages", "man", "has-devel.Rd",
-            package = "BiocCheck"))
+    good <- tools::parse_Rd(system.file("testpackages", "testpkg0", "man",
+            "has-devel.Rd", package = "BiocCheck"))
 
-    bad <- tools::parse_Rd(
-        system.file("testpackages", "man", "baddep.Rd",
-            package = "BiocCheck"))
+    bad <- tools::parse_Rd(system.file("testpackages", "testpkg0", "man",
+            "baddep.Rd", package = "BiocCheck"))
 
     checkEquals(doesManPageHaveRunnableExample(good), TRUE)
 
