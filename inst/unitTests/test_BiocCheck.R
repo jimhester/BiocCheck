@@ -596,7 +596,7 @@ test_doesManPageHaveRunnableExample <- function()
     bad <- tools::parse_Rd(system.file("testpackages", "testpkg0", "man",
             "baddep.Rd", package = "BiocCheck"))
 
-    checkEquals(doesManPageHaveRunnableExample(good), TRUE)
+    checkEquals(BiocCheck:::doesManPageHaveRunnableExample(good), TRUE)
 
-    checkEquals(doesManPageHaveRunnableExample(bad), FALSE)
+    checkEquals(BiocCheck:::doesManPageHaveRunnableExample(bad), FALSE)
 }
