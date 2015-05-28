@@ -109,7 +109,7 @@ checkVignetteDir <- function(pkgdir, checkingDir)
     for (file in vigdircontents)
     {
         lines <- readLines(file, warn=FALSE)
-        vignetteType <- knitr:::detect_patterns(lines, knitr:::file_ext(file))
+        vignetteType <- knitr:::detect_pattern(lines, knitr:::file_ext(file))
         chunkPattern <- knitr::all_patterns[[vignetteType]]$chunk.begin
         chunklines <- lines[grep(chunkPattern, lines)]
         chunks <- chunks + length(chunklines)
